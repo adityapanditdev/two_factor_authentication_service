@@ -4,6 +4,16 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 6 }
   validate :password_complexity
 
+  def self.authenticate(email, password)
+    user = User.find_by(email: email)
+    return nil unless user
+    if BCrypt::Password.new(user.password) == password
+      return user
+    else
+      return nil
+    end
+  end
+
   private
 
   def password_complexity
