@@ -13,3 +13,5 @@ class Router < Sinatra::Base
 end
 
 run Router
+system('nohup redis-server &')
+system('nohup bundle exec sidekiq -r ./config/environment.rb &')
