@@ -9,6 +9,7 @@ use Rack::MethodOverride
 class Router < Sinatra::Base
   use ApplicationController
   use UsersController
+  use TwoFactorsController
 end
 
 run Router
