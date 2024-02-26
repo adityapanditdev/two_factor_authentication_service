@@ -16,7 +16,7 @@ module Authentication
   def create_user_and_send_confirmation_email(user_info, user)
     encrypted_password = BCrypt::Password.create(user_info[:password])
     user.password = encrypted_password
-    return true if user.save && send_confirmation_email(user_info[:email])
+    return true if user.save && BackgroundJob.perform_async(user.id)
   end
 
   # Method to generate a secret key for 2FA
@@ -34,24 +34,5 @@ module Authentication
   def verify_token(secret, token)
     totp = ROTP::TOTP.new(secret)
     totp.verify(token)
-  end
-
-  # Method to send confirmation email
-  def send_confirmation_email(email)
-    Pony.mail({
-      to: email,
-      subject: 'Registration Confirmation',
-      body: 'Thank you for registering!',
-      via: :smtp,
-      via_options: {
-        address: 'smtp.gmail.com',
-        port: '587',
-        user_name: 'rordev123456@gmail.com',
-        password: 'ktmdrloqmibaxknl',
-        authentication: :plain,
-        domain: 'gmail.com',
-        timeout: 120
-      }
-    })
   end
 end

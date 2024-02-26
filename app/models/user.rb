@@ -14,6 +14,24 @@ class User < ApplicationRecord
     end
   end
 
+  def send_confirmation_email
+    Pony.mail({
+      to: email,
+      subject: 'Registration Confirmation',
+      body: 'Thank you for registering!',
+      via: :smtp,
+      via_options: {
+        address: 'smtp.gmail.com',
+        port: '587',
+        user_name: 'rordev123456@gmail.com',
+        password: 'ktmdrloqmibaxknl',
+        authentication: :plain,
+        domain: 'gmail.com',
+        timeout: 120
+      }
+    })
+  end
+
   private
 
   def password_complexity
