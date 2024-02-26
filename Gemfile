@@ -10,3 +10,5 @@ gem 'rackup'
 gem 'pry'
 gem 'irb'
 gem 'require_all'
+gem "sinatra-flash"
+gem 'dotenv', require: 'dotenv/load'
