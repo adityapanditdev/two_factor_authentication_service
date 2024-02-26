@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
 
+  before do
+    redirect '/account/settings?session_id=true' if current_user && request.path_info == '/'
+    redirect '/account/settings' if current_user && request.path_info == '/login'
+  end
+
   get '/' do
     erb :register, locals: { errors: [] }
   end
@@ -33,5 +38,15 @@ class UsersController < ApplicationController
     session.clear if current_user
     flash[:message] = "Logout Successfully"
     redirect '/login'
+  end
+
+  get '/account/settings' do
+    erb :account_settings, locals: { user: current_user }
+  end
+
+  post '/account/password/update' do
+    old_password = current_user.password
+    current_user.update(password: BCrypt::Password.create(params['new_password'])) if BCrypt::Password.new(old_password) == params['current_password']
+    redirect "/account/settings?#{current_user.errors.any? || BCrypt::Password.new(old_password) != params['current_password'] ? 'error=invalid_password' : 'password_updated=true'}"
   end
 end
