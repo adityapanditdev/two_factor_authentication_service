@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: >
+      sh -c "bundle exec rake db:create && bundle exec rake db:migrate && bundle exec rackup --host 0.0.0.0 -p 3000"
+    depends_on:
+      - database
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    restart: always
+    environment:
+      - DB_HOST=database
+      - REDIS_URL=redis://redis:6379/0
+      # These is for real time loading and enable real time loading
+    links:
+      - redis
+    stdin_open: true
+    tty: true
+
+  database:
+    image: postgres:12.7
+    volumes:
+      - two_fa_dev_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: two_fa_dev
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+
+  redis:
+    image: redis:5.0.7
+    ports:
+      - 6379:6379
+
+  sidekiq:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command: >
+      sh -c "bundle exec sidekiq -r ./config/environment.rb"
+    depends_on:
+      - redis
+      - database
+    volumes:
+      - .:/app
+    restart: always
+    environment:
+      - DB_HOST=database
+      - REDIS_URL=redis://redis:6379/0
+    stdin_open: true
+    tty: true
+
+volumes:
+  two_fa_dev_data:

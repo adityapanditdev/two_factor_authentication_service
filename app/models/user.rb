@@ -23,8 +23,8 @@ class User < ApplicationRecord
       via_options: {
         address: 'smtp.gmail.com',
         port: '587',
-        user_name: 'rordev123456@gmail.com',
-        password: 'ktmdrloqmibaxknl',
+        user_name: 'developerdeveloper76@gmail.com',
+        password: 'lrtoohlyyxhqpmwv',
         authentication: :plain,
         domain: 'gmail.com',
         timeout: 120

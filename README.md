@@ -22,61 +22,78 @@ The Two-Factor Authentication (2FA) Service is a web application built using the
 - **RQRCode:** Library used for generating QR codes.
 - **RSpec:** Testing framework used for writing and executing tests.
 
-## Getting Started
+## Prerequisites
 
-To run the application locally, follow these steps:
+Before you begin, ensure you have met the following requirements:
+- Docker: [Install Docker](https://docs.docker.com/get-docker/)
 
-1. Clone this repository to your local machine.
-2. Install Ruby 3.2.2 if you haven't already.
-3. Install dependencies by running bundle install.
-4. Install sidekiq and redis.
-4. Set up the database by running 
+## Installation and Setup
+
+1. Clone the repository:
+
 ```bash
-  rake db:create
-```
-5. Set up the database by running 
-```bash
-  rake db:migrate
+git clone <repository_url>
+cd two_factor_authentication_service
 ```
 
-6. Start the server by running 
+2. Install Docker:
+
 ```bash
-  rake server
+Install docker and docker-compose
 ```
 
-7. Access the application in your web browser at http://127.0.0.1:9292.
+3. Build the Docker containers:
 
-8. For running console
 ```bash
-  rake console
+docker compose build
 ```
 
 ## Usage
 
-1. Register for a new account using your email and password.
-2. Log in to your account.
-3. Enable two-factor authentication for added security.
-4. Manage your account settings as needed.
+To start the application, run:
 
-## Testing
-
-This project includes RSpec tests to ensure the application functions correctly. Run rspec in your terminal to execute the tests.
-
-Setup the Test Environment, follow these steps:
-
-1. Set up the database by running 
 ```bash
-  rake db:create
+docker compose up
 ```
-2. Set up the database by running 
+## Accessing Bash Shell
+
+To access the bash shell of the backend container, run:
+
 ```bash
-  rake db:migrate RACK_ENV=test
+docker exec -it < container-name >
 ```
-3. Run the Specs
+
+you can check contains using:
+
 ```bash
-  rspec
+docker ps
 ```
-3. Run the particular spec file
+
+## Accessing Sidekiq/backend Logs
+
+To access the logs of the Sidekiq container, you can use the `docker attach` command. Run the following command:
+
 ```bash
-  rspec < ./relative_path_of_the_spec_file >
+docker attach two_factor_authentication_service-backend-1
+docker attach two_factor_authentication_service-sidekiq-1
+```
+This will attach your terminal to the logs of the Sidekiq/backend container, allowing you to view real-time logs and debug any issues.
+
+
+## Running Tests
+
+To run tests, execute the following command:
+
+1. Open the backend container:
+```bash
+docker exec -it two_factor_authentication_service-backend-1
+```
+2. Run the migration command with test env:
+```bash
+rake db:migrate RACK_ENV=test
+```
+
+3. Run the rspec in the container:
+```bash
+bundle exec rspec
 ```

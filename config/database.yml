@@ -1,13 +1,13 @@
 development:
   adapter: postgresql
   database: two_fa_dev
-  host: localhost
+  host: database
   username: postgres
   password: postgres
 
 test:
   adapter: postgresql
   database: two_fa_test
-  host: localhost
+  host: database
   username: postgres
   password: postgres

@@ -31,6 +31,7 @@ GEM
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
     date (3.3.4)
+    diff-lcs (1.5.1)
     dotenv (3.0.2)
     drb (2.2.0)
       ruby2_keywords
@@ -71,6 +72,8 @@ GEM
     rack (1.6.13)
     rack-protection (1.5.5)
       rack
+    rack-test (2.1.0)
+      rack (>= 1.3)
     rackup (1.0.0)
       rack (< 3)
       webrick
@@ -86,6 +89,19 @@ GEM
       chunky_png (~> 1.0)
       rqrcode_core (~> 1.0)
     rqrcode_core (1.2.0)
+    rspec (3.13.0)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.0)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.1)
     ruby2_keywords (0.0.5)
     sidekiq (5.2.8)
       connection_pool (~> 2.2, >= 2.2.2)
@@ -122,12 +138,14 @@ DEPENDENCIES
   pg
   pony
   pry
+  rack-test
   rackup
   rake
   redis (< 4.6)
   require_all
   rotp
   rqrcode
+  rspec
   sidekiq
   sinatra (~> 1.4, >= 1.4.7)
   sinatra-activerecord

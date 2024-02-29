@@ -1,2 +1,2 @@
 development:
-  :url: redis://localhost:6379/0
+  :url: <%= ENV.fetch("REDIS_URL") %>
