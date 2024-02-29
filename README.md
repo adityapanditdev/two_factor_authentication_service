@@ -55,6 +55,9 @@ To start the application, run:
 ```bash
 docker compose up
 ```
+
+After start docker hit the url:- http://localhost:3000/
+
 ## Accessing Bash Shell
 
 To access the bash shell of the backend container, run:
